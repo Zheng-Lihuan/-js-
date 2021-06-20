@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实现浅克隆</title>
+</head>
+<body>
+  <script>
+
+    // 浅克隆 只可能对象或者数组的第一次
+
+  let obj={
+    arr:[1,2,3],
+    age:20,
+    o:{
+      a:'123',
+      name:'ss',
+      o2:{
+        age:3,
+      }
+    }
+  }
+
+  
+  function  shallClone(target){
+    if(typeof target == 'object' && target != null){
+      const cloneTarget = Array.isArray(target)?[]:{}
+      for(const key in target){
+        if(target.hasOwnProperty(key)){
+          cloneTarget[key]=target[key]
+        }
+      }
+      return cloneTarget
+    }else {
+      return target 
+    }
+
+  }
+
+  const a=shallClone(obj)
+  a.o.o2.age=4
+  console.log(a.o.o2);
+  console.log(obj);
+
+
+
+  // function shallClone(target){
+  //   if(typeof target == 'object' && target != null){
+  //     const cloneTarget = Array.isArray(target)?[]:{}
+  //     for(const key in target){
+  //       if(target.hasOwnProperty(key)){
+  //         cloneTarget[key]=target[key]
+  //       }
+  //     }
+  //     return cloneTarget
+  //   }else {
+  //     return target 
+  //   }
+  // }
+
+  </script>
+</body>
+</html>

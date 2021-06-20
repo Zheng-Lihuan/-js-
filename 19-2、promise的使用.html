@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>promise的使用</title>
+</head>
+
+<body>
+  <script>
+    (function () {
+      function Promise(executor) {
+
+        var that = this;
+
+        that.status = 'pending' // 给promise对象指定status属性，初始值为pending
+        that.data = undefined // 给promise对象指定一个存储结果的data
+        that.callbacks = [] // 每个元素的结构：{onResolved(){}，onRejected(){}}
+
+
+        function reject(value) {
+          // 将状态改为resolved
+          that.status = 'resolved'
+          // 保存value的值
+          that.data = value
+
+          // 如果有待执行的callback函数，立即异步执行回调函数onResolved
+          if (that.callbacks.length > 0) {
+            that.callbacks.forEach(callbackObj => {
+              callbackObj.onResolved(value)
+            })
+          }
+        }
+
+        function resolve(value) {
+          // 如果当前状态不是pending，则不执行
+          if (that.status !== 'pending') {
+            return
+          }
+          that.status = 'resolved'
+          that.data = value
+
+          // 如果有待执行的callback函数，立即异步执行回调函数onResolved
+          if (that.callbacks.length > 0) {
+            setTimeout(() => {
+              that.callbacks.forEach(callbackObj => {
+                console.log('callbackObj', callbackObj);
+                callbackObj.onResolved(value)
+              })
+            })
+          }
+        }
+
+
+        // 立即同步执行executor
+        executor(resolve, reject)
+      }
+
+
+      Promise.prototype.then = function (onResolved, onRejected) {
+
+        var that = this
+
+        if (that.status === 'pending') {
+          // promise当前状态还是pending状态，将回调函数保存起来
+          that.callbacks.push({
+            onResolved() {
+              onResolved(that.data)
+            },
+            onRejected() {
+              onRejected(that.data)
+            }
+          })
+        } else if (that.status === 'resolved') {
+
+        } else {
+
+        }
+
+      }
+
+
+    })(window)
+
+
+
+    var promise = new Promise((resolve, reject) => {
+      setTimeout(function () {
+        resolve(1)
+      })
+    })
+
+    promise.then(
+      value => {
+        console.log(value)
+      },
+      err => {
+        console.log(err)
+      }
+    )
+  </script>
+</body>
+
+</html>

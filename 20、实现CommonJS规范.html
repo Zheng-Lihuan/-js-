@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实现CommonJs规范 </title>
+</head>
+
+<body>
+
+  <script>
+    // a.js
+    // module.exports = {
+    //   a: 1
+    // }
+    // // or
+    // exports.a = 1
+
+    // // b.js
+    // var module = require('./a.js')
+    // module.a // -> log 1
+
+
+    // 基本实现
+    var module = {
+      exports: {} // exports 就是个空对象
+    }
+
+    // 这个是为什么 exports 和 module.exports 用法相似的原因
+    var exports = module.exports
+
+
+    var load = function (module) {
+      console.log('module',module,exports);
+      // 导出的东西
+      var a = 1
+      var add =function (a,b){
+        return a+b
+      }
+      module.exports = {a,add}
+      return module.exports
+    };
+
+    console.log(load(exports));
+  </script>
+
+</body>
+
+</html>

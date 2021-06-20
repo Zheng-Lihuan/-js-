@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实现限制并发请求数</title>
+</head>
+
+<body>
+  <script>
+    function requestLimit(list, limit, handle) {
+
+      function request(arr) {
+        return handle(arr.shift()).then(() => {
+          if (r_list.length > 0) {
+            return request(r_list)
+          } else if (r_list.length == 0) {
+            return 'wancheng'
+          }
+        })
+      }
+
+      let asyncRequest = []
+      let r_list = [].concat(list)
+
+      while (limit--) {
+        asyncRequest.push(request(r_list))
+      }
+
+      return Promise.all(asyncRequest)
+    }
+
+    var dataLists = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 100, 123];
+    var count = 0;
+
+
+    requestLimit(dataLists, 3, function (curItem) {
+      return new Promise(resolve => {
+        count++
+        setTimeout(() => {
+          console.log(curItem, '当前并发量:', count--)
+          resolve();
+        }, Math.random() * 1000)
+      });
+    }).then(response => {
+      console.log('finish', response)
+    })
+  </script>
+</body>
+
+</html>

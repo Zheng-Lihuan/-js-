@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实现bind</title>
+</head>
+<body>
+    <script>
+
+      Function.prototype._bind=function(context,...args){
+        let _this =this
+        return function(...params){
+         _this.call(context,...(args.concat(...params))) 
+        }
+      }
+
+      // 实现call
+    let o={count:1};
+    var count =2;
+    function get(...args){
+      console.log(this,args);
+    }
+    let a=get._bind(o,1,2,3)
+    a(5,6,7)
+
+
+
+
+    </script>
+</body>
+</html>

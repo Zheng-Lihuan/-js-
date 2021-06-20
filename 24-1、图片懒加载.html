@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>图片懒加载</title>
+  <style>
+
+    img {
+      display: block;
+      width: 500px;
+      height: 361px;
+    }
+  </style>
+</head>
+<body>
+
+
+  <img src="./img/loading.gif" alt="" data-src="./img/1.jpeg">
+  <img src="./img/loading.gif" alt="" data-src="./img/2.jpeg">
+  <img src="./img/loading.gif" alt="" data-src="./img/3.jpeg">
+  <img src="./img/loading.gif" alt="" data-src="./img/4.jpeg">
+  <img src="./img/loading.gif" alt="" data-src="./img/5.jpeg">
+  <script>
+
+
+
+    function lazyLoadImg(){
+
+      const [...imgList] = document.querySelectorAll("img")
+      const length = imgList.length
+      const w_height = window.innerHeight
+
+      imgList.forEach(item=>{
+        const rect = item.getBoundingClientRect()
+        if(rect.top<w_height){
+          const src = item.dataset.src
+          console.log('src',src);
+          item.src=src
+        }
+      })
+    }
+
+    let timer = null
+    window.addEventListener("scroll",function(){
+      if(timer){
+        clearTimeout(timer)
+      }
+      timer=setTimeout(function(){
+        this.lazyLoadImg()
+      },100)
+    })
+
+    window.addEventListener("DOMContentLoaded",function(){
+      lazyLoadImg()
+    })
+
+
+
+
+
+
+  </script>
+</body>
+</html>

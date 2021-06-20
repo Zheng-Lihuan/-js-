@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实现Object.freeze</title>
+</head>
+
+<body>
+  <script>
+    function myFreeze(obj) {
+      if (obj instanceof Object) {
+        Object.seal(obj)
+        for (const key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            Object.defineProperty(obj,key, {
+              writable: false
+            })
+            myFreeze(obj[key])
+          }
+        }
+      }
+
+    }
+
+
+    function myFreeze(obj){
+      if(obj instanceof Object){
+        Object.seal(obj)
+        for(const key in obj){
+          if(obj.hasOwnProperty(key)){
+            Object.defineProperty(obj,key,{
+              writable:false
+            })
+            myFreeze(obj[key])
+          }
+        }
+      }
+    }
+
+    let o = {
+      name: 111
+    }
+
+    myFreeze(o)
+    // Object.freeze(o)
+    o.name = 333
+    console.log(o);
+  </script>
+</body>
+
+</html>

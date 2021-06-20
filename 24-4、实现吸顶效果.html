@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实现吸顶效果</title>
+  <style>
+
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    .head {
+      width: 100vw;
+      height: 1200px;
+      background-color: pink;
+    }
+
+    .reference {
+      width: 100vw;
+      height: 20px;
+      background-color: red;
+    }
+
+    .fixed-box {
+      width: 100vw;
+      height: 50px;
+      text-align: center;
+      line-height: 50px;
+      background-color: orange;
+      font-size: 20px;
+      color: #fff;
+    }
+
+    .fix {
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+
+    .box {
+      width: 100vw;
+      height: 10000px;
+      background-color: green;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div>
+    <div class="head"></div>
+    <div class="reference" id="reference"></div>
+    <div class="fixed-box" id="fixed">吸顶元素</div>
+    <div class="box"></div>
+  </div>
+    <script>
+
+
+
+      const reference = document.getElementById("reference")
+      const fix = document.getElementById("fixed")
+
+      const callback=(entries)=>{
+        const item = entries[0]
+        const isIntersecting = item.isIntersecting;
+        const top = item.boundingClientRect.top
+
+        if(!isIntersecting && top<=0){
+          console.log('小于0');
+          fix.classList.add("fix")
+        }else {
+          console.log('大于0');
+          fix.classList.remove('fix')
+        }
+        
+      }
+
+      const options={
+        root:null,
+        thresholds:[0,0.5,1],
+      }
+
+      const observer = new IntersectionObserver(callback,options)
+      observer.observe(reference)
+
+
+    </script>
+</body>
+</html>

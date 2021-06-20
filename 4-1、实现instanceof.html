@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实现instanceof</title>
+</head>
+<body>
+  <script>
+
+
+function _instanceof(instanceObject,classFun){
+  classFun = classFun.prototype;
+  let proto = instanceObject.__proto__
+
+  while(true){
+    if(proto===null){
+      return false
+    }
+
+    if(classFun === proto){
+      return true
+    }
+
+    proto=proto.__proto__
+  }
+}
+
+function P(name){
+  this.name=name
+}
+
+let  a = new P(111)
+
+console.log(_instanceof2(a,Object));
+
+
+// function _instanceof2 (instanceObj,classFn){
+//   classFn = classFn.prototype
+//   let proto = instanceObj.__proto__
+
+//   while(true){
+//     if(proto === null){
+//       return false
+//     }
+
+//     if(proto === classFn){
+//       return true
+//     }
+
+//     proto = proto.__proto__
+//   }
+  
+// }
+
+
+  </script>
+</body>
+</html>

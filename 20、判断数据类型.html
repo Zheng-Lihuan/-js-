@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>判断数据类型</title>
+</head>
+<body>
+
+  <div id="div">11</div>
+  <script>
+
+    // 基本数据类型
+    // Number String Boolean Object null undefined
+
+      // console.log(typeof 123);//number
+      // console.log(typeof NaN);
+      // console.log(isNaN(NaN));
+      // console.log( Object.prototype.toString.call(NaN) ==='[object Number]');//[object Number]
+      // console.log(Object.prototype.toString.call(11));
+
+    // 是否为NaN
+    isNaN(NaN)//true
+
+    //是否为数值类型
+    function isNumber(data){
+      return !isNaN(data) && typeof data === 'number'
+    }
+
+    //是否为字符串类型
+    function isString(data){
+      return typeof data === 'string'
+    }
+
+    //是否为Boolean 
+    function isBoolean(data){
+      return typeof data === 'boolean'
+    }
+
+    //是否为null
+    function isNull(data){
+      return data === null
+    }
+
+    //是否为undefined
+    function isUndefined(data){
+      return typeof data === 'undefined'
+    }
+
+    //是否为数组
+    function isArray(data){
+      return Array.isArray(data)
+    }
+
+    // //是否为对象
+    function isObject(data){
+      return Object.prototype.toString.call(data) === "[object,Object]"
+    }
+
+    //判断空对象
+    function isEmptyObject(data){
+      return Object.keys(data).length==0
+    }
+
+    //判断是否为window
+    function isWindow(obj){
+      return obj.window === window
+    }
+
+    //判断是否为dom元素
+    function isDom(el){
+      return el&&el.nodeType ===1
+    }
+
+    console.log(isDom(div));
+
+
+
+  </script>
+</body>
+</html>

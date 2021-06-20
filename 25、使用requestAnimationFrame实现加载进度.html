@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>使用requestAnimationFrame实现加载动画</title>
+  <style>
+
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    #box {
+      position: relative;
+      width: 800px;
+      height: 40px;
+      border: 1px solid red;
+      margin: 0 auto;
+    }
+
+    #progress{
+      width: 0;
+      height: 100%;
+      background-color: rgb(70, 150, 243);
+    }
+
+    #current {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      font-size: 20px;
+      color: red;
+      text-align: center;
+      line-height: 40px;
+    }
+
+    #btn {
+      width: 100px;
+      height: 40px;
+      background-color: rgb(52, 193, 206);
+      color: #fff;
+      border: 0 none;
+      font-size: 20px;
+      border-radius: 4px;
+      margin: 20px auto;
+      display: block;
+    }
+
+
+
+  </style>
+</head>
+<body>
+
+  <div id="box">
+    <div id="progress"></div>
+    <div id="current">0%</div>
+  </div>
+  <button id="btn">开始</button>
+  <script>
+
+    const btn = document.querySelector("#btn")
+    const progress = document.querySelector("#progress")
+    const current = document.querySelector("#current")
+    const width = box.clientWidth;
+    let count = 0;
+    let raf=null
+
+
+    btn.addEventListener('click',download)
+
+
+    function download(){
+      count+=10;
+      let p = (count/width*100).toFixed(2);
+      current.innerHTML=`${p}%`
+      progress.style.width=count+'px'
+      console.log('下载进度',count,p);
+      if(count>=width){
+        console.log('下载完成');
+        current.innerHTML=`100%`
+        raf=null
+      }else{
+        raf=window.requestAnimationFrame(download)
+      }
+    }
+
+
+
+  </script>
+</body>
+</html>

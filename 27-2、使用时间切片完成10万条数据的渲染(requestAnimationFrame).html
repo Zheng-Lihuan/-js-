@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>使用时间切片完车10万条数据的渲染(requestAnimationFrame)</title>
+
+  <style>
+    #box p {
+      /* height: 120px;
+      font-size: 20px;
+      border: 1px solid red;
+      margin: 10px auto;
+      text-align: center;
+      line-height: 120px; */
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="box"></div>
+
+  <script>
+    let total = 100000;
+    let start = Date.now()
+    let once = 20;
+    let index = 0;
+    let box = document.getElementById('box')
+
+    console.log('开始');
+
+    function loop(curTotal, curIndex) {
+      if (curTotal <= 0) return
+      let page = Math.min(curTotal, once)
+
+      window.requestAnimationFrame(function () {
+        let fragment = document.createDocumentFragment
+        for (let i = 0; i < page; i++) {
+          let div = document.createElement('p')
+          div.innerText = `第${curIndex+i}项:${~~(Math.random()*total)}`
+          fragment.appendChild(div)
+        }
+        box.appendChild(fragment)
+        loop(curTotal - page, curIndex + page)
+      })
+    }
+
+    loop(total, index)
+  </script>
+</body>
+
+</html>

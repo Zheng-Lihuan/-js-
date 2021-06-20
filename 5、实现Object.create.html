@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实现Object.create</title>
+</head>
+<body>
+  <script>
+
+    Object.create= function (prototype){
+      if(typeof prototype == 'object' && prototype === null){
+        throw new TypeError(`Object prototype may only be an Object :${prototype}`)
+      }
+
+      function Temp(){}
+
+      Temp.prototype = prototype
+      return new Temp()
+    }
+
+
+    let a =Object.create({a:'aaa'})
+
+
+
+
+  </script>
+</body>
+</html>

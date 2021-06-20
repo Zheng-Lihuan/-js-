@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实现控制并发数和队列</title>
+</head>
+
+<body>
+
+  <script>
+
+    class Queue {
+      promise = Promise.resolve()
+      excute(promise) {
+        this.promise = promise.then(() => promise)
+        return this.promise
+      }
+    }
+
+    const queue = new Queue()
+
+    const delay = (name) => {
+      const time = arr[i]
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          if(name%2==0){
+            reject(name)
+          }else {
+            resolve(name)
+          }
+        }, time * 1000);
+      })
+    }
+
+    const handleClick = async (name) => {
+      try {
+        i++
+        asyncCount++
+        const res = await queue.excute(delay(name))
+        if (res) {
+          successList.push(res)
+          loop()
+        }
+      } catch (err) {
+        console.log('err', err);
+        errorList.push(name)
+        loop()
+      }
+    }
+
+
+    const loop=()=>{
+      asyncCount--
+      // console.log('res222',arr,asyncCount,errorList);
+      if(arr.length>0){
+        handleClick(arr.shift())
+      }
+
+      if(arr.length == 0 && asyncCount==0){
+        console.log('任务执行完了');
+        console.log('任务成功执行了',successList);
+        console.log('任务失败了',errorList);
+      }
+    }
+
+
+    const arr = [5, 4, 3, 1, 2]
+    let i = 0;//当前进行到第几个任务
+    let limit = 2;//限制并发数
+    let asyncCount = 0 //当前并发数
+    let errorList = []//失败任务
+    let successList = []//成功任务
+
+    while (limit--) {
+      handleClick(arr.shift())
+    }
+
+
+
+    // handleClick('A');
+    // handleClick('B');
+    // handleClick('C');
+    // handleClick('d');
+    // handleClick('f');
+    // handleClick('d');
+    // handleClick('f');
+    // handleClick('B');
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>控制并发数加载图片</title>
+</head>
+
+<body>
+  <script>
+    var urls = [
+      'https://www.kkkk1000.com/images/getImgData/getImgDatadata.jpg',
+      'https://www.kkkk1000.com/images/getImgData/gray.gif',
+      'https://www.kkkk1000.com/images/getImgData/Particle.gif',
+      'https://www.kkkk1000.com/images/getImgData/arithmetic.png',
+      'https://www.kkkk1000.com/images/getImgData/arithmetic2.gif',
+      'https://www.kkkk1000.com/images/getImgData/getImgDataError.jpg',
+      'https://www.kkkk1000.com/images/getImgData/arithmetic.gif',
+      'https://www.kkkk1000.com/images/wxQrCode2.png'
+    ];
+
+    function loadImg(url) {
+      return new Promise((resolve, reject) => {
+        const img = new Image()
+        img.src = url;
+        img.onerror = reject
+        img.onload = function () {
+          total++
+          console.log('total',total);
+          console.log('一张图片加载成功');
+          resolve()
+        }
+      })
+    }
+
+    let count = 0
+    let total = 0
+
+    function bao() {
+      count++
+      console.log('并发数',count);
+      if (urls.length > 0 && count <= 3) {
+        // let img = urls.shift()
+        loadImg(urls.shift()).then(res => {
+          count--
+        }).then(bao)
+      }
+
+    }
+
+    function asyncLoad() {
+      for (let i = 0; i < 3; i++) {
+        bao()
+      }
+    }
+    asyncLoad()
+
+  </script>
+</body>
+
+</html>

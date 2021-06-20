@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>使用时间切片完车10万条数据的渲染(settimeout)</title>
+
+  <style>
+    #box p {
+      /* height: 120px;
+      font-size: 20px;
+      border: 1px solid red;
+      margin: 10px auto;
+      text-align: center;
+      line-height: 120px; */
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="box"></div>
+
+  <script>
+    let total = 100;
+    let start = Date.now()
+    let once = 20;
+    let index = 0;
+    let box = document.getElementById('box')
+
+    console.log('开始');
+
+    function loop(curTotal, curIndex) {
+      if (curTotal <= 0) return
+      console.log('curTotal',curTotal,curIndex);
+      let page = Math.min(curTotal, once)
+      // console.log('page',page);
+
+      setTimeout(() => {
+        for (let i = 0; i < page; i++) {
+          let div = document.createElement('p')
+          div.innerText = `第${curIndex+i}项:${~~(Math.random()*total)}`
+          box.appendChild(div)
+        }
+        loop(curTotal - page, curIndex + page)
+      }, 0);
+
+    }
+
+    loop(total, index)
+  </script>
+</body>
+
+</html>

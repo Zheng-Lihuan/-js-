@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>promise实现继发执行和并发执行</title>
+</head>
+
+<body>
+  <script>
+    const timeout = ms => new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve()
+      }, ms);
+    })
+
+    const ajax1 =()=> timeout(2000).then(data => {
+      console.log('1');
+      return '1'
+    })
+
+    const ajax2 = ()=> timeout(1000).then(data => {
+      console.log('2');
+      return '2'
+    })
+
+    const ajax3 =()=>  timeout(500).then(data => {
+      console.log('3');
+      return '3'
+    })
+
+    const mergeAjax = (promises) => {
+      let p = Promise.resolve()
+      let arr = []
+      promises.forEach(item=>{
+        //继发执行
+        p=p.then(item).then(res=>{
+          console.log('res',res);
+          arr.push(res)
+          return arr
+        })
+        //并发执行
+        // item()
+      })
+
+      return p
+    }
+
+    mergeAjax([ajax1, ajax2, ajax3]).then(data => {
+      console.log('data', data);
+    })
+  </script>
+</body>
+
+</html>

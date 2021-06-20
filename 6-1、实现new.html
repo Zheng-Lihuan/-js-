@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实现new</title>
+</head>
+<body>
+    <script>
+
+      function _new (Fn, ...args){
+        let obj = {}
+        obj.__proto__ =Fn.prototype
+        let result = Fn.call(obj,...args)
+          if(result !== null && /^object| function$/.test(typeof result)){
+            return result
+          }
+
+        return obj
+      }
+
+      function Fn(name,age){
+        this.name =name
+        this.age = age
+      }
+
+      // let fn = new Fn('zz',20)
+      // console.log(fn);
+      const a =_new(Fn,'zz',20)
+      console.log(a);
+
+
+
+    </script>
+</body>
+</html>

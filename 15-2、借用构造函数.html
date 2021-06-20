@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>借用构造函数</title>
+</head>
+
+<body>
+  <script>
+    // 优点：
+    //  可以为父类传参
+    //  避免了共享属性
+
+    // 缺点：
+    //  只是子类的实例， 不是父类的实例
+    //  方法都在构造函数中定义， 每次创建实例都会创建一遍方法
+
+
+    function Person(age) {
+      this.age = age || 18
+    }
+    Person.prototype.sleep = function () {
+      console.log('sleeping')
+    }
+
+    function Programmer(name) {
+      Person.call(this)
+      this.name = name
+    }
+    let jon = new Programmer('jon')
+    jon.name // jon
+    jon.age // 18
+
+    jon.sleep() // Uncaught TypeError: jon.sleep is not a function
+    jon instanceof Person // false
+    jon instanceof Programmer // true
+  </script>
+</body>
+
+</html>

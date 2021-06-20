@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实现节流</title>
+</head>
+<body>
+
+  <button id="btn">测试防抖</button>
+  <script>
+    // 防抖：当你在频繁调用方法时，并不会执行，只有当你在指定间隔内没有再调用，才会执行函数。
+    // function debounce(fn,wait){
+    //   let time=null;
+    //   return function(){
+    //     const context = this;
+    //     const args = arguments;
+    //     if(time){
+    //       clearTimeout(time)
+    //     }
+    //     time=setTimeout(() => {
+    //       time = null
+    //       fn.call(context,...args)
+    //     }, wait);
+    //   }
+    // }
+
+
+    // 使用实例
+    let fuc = debounce(scroll,1000)
+    var count = 10;
+    var obj ={count:20}
+    function scroll (...args){
+      console.log('触发scroll函数: '+this.count,args);
+    }
+    
+    window.onload=function(){
+      const btn = document.querySelector("#btn")
+      btn.addEventListener("click",function(){
+        // console.log('点击按钮',obj);
+        fuc.call(obj,1,2,3)
+      })
+    }
+
+
+    // function debounce (fn,wait){
+    //   let time = null
+    //   return function(){
+    //     const context = this;
+    //     const args = arguments;
+    //     if(time){
+    //       clearTimeout(time)
+    //     }
+    //     time = setTimeout(() => {
+    //       fn.call(context,...args)
+    //     }, wait);
+    //   }
+    // }
+
+    function debounce(fn,wait,im){
+      let time = null
+
+      return function(){
+        const context = this;
+        const args =arguments
+
+        if(time){
+          clearTimeout(time)
+        }
+
+        let now = im && !time
+
+        time = setTimeout(()=>{
+          time = null
+          !im ? fn.call(context,...args) : null
+        },wait)
+
+        now ? fn.call(context,...args):null
+      }
+    }
+
+
+
+
+
+  </script>
+</body>
+</html>

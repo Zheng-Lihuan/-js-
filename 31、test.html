@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+
+  <ul id="ul">
+
+  </ul>
+
+  <script>
+    // function loadData() {
+    //   let ul = document.querySelector("#ul")
+    //   let total = 1000
+    //   let once = 20;
+    //   let page = total / once
+
+    //   let index = 0
+
+    //   function loop(curTotal,curIndex){
+    //    if(curTotal<=0) return 
+    //    let pageCount = Math.min(curTotal,once)
+    //    window.requestAnimationFrame(()=>{
+    //      let dom = document.createDocumentFragment()
+    //      for(let i=0;i<pageCount;i++){
+    //        let li = document.createElement("li")
+    //        li.innerText=`${curIndex + i}:${~~(Math.random()*total)}`
+    //        dom.appendChild(li)
+    //      }
+    //      ul.innerHTML = dom
+    //      loop(curTotal - pageCount,curIndex+pageCount)
+    //    })
+
+    //   }
+
+    //   loop(total,index)
+
+    // }
+
+    // loadData()
+
+    let json = {
+      tag: 'DIV',
+      attrs: {
+        id: 'app'
+      },
+      children: [{
+          tag: 'SPAN',
+          children: [{
+            tag: 'A',
+            children: []
+          }]
+        },
+        {
+          tag: 'SPAN',
+          children: [{
+              tag: 'A',
+              children: []
+            },
+            {
+              tag: 'A',
+              children: []
+            }
+          ]
+        }
+      ]
+    }
+
+
+    // function render(vnode) {
+    //   if(typeof vnode === 'number'){
+    //     vnode = String(vnode)
+    //   }
+
+    //   if(typeof vnode === 'string'){
+    //     return document.createTextNode(vnode)
+    //   }
+
+    //   let dom = document.createElement(vnode.tag)
+    //   if(vnode.attrs){
+    //     Object.keys(vnode.attrs).forEach(key=>{
+    //       const val = vnode.attrs[key];
+    //       dom.setAttribute(key,val)
+    //     })
+    //   }
+
+    //   vnode.children.forEach(child=>{
+    //     dom.appendChild(render(child))
+    //   })
+
+    //   return dom
+    // }
+
+
+    // console.log(render(json));
+
+
+
+    // 实现模板字符串解析
+
+    // let template = '我是{{name}},年龄{{age}}，性别{{sex}}'
+    // let data = {
+    //   name :'刘备',
+    //   age:40,
+    //   sex:'男'
+    // }
+
+    // function render(tpl,data){
+    //   let computed = template.replace(/\{\{(.+?)\}\}/g,function(match,key){
+    //     console.log('match',match);
+    //     console.log('key',key);
+    //     return data[key]
+    //   })
+    //   return computed
+    // }
+
+    // const dom = render(template,data)
+    // console.log(dom);
+
+    // 实现一个对象的flatten方法
+
+
+    // function isObject(val) {
+    //   return typeof val === 'object' && val !== null
+    // }
+
+
+
+    // function flatten(obj) {
+    //   if (!isObject(obj)) return
+    //   let res = {}
+    //   const dfs = (cur, prefix) => {
+    //     if (isObject(cur)) {
+    //       if (Array.isArray(cur)) {
+    //         cur.forEach((item, index) => {
+    //           dfs(item, `${prefix}[${index}]`)
+    //         })
+    //       } else {
+    //         for (let k in cur) {
+    //           dfs(cur[k], `${prefix}${prefix?".":""}${k}`)
+    //         }
+    //       }
+    //     } else {
+    //       res[prefix] = cur
+    //     }
+    //   }
+
+    //   dfs(obj, "")
+    //   return res
+    // }
+
+    // function isObject(val){
+    //   return typeof val === 'object' && val !== null
+    // }
+
+    // function flatten(obj){
+    //   if(!isObject(obj)) return 
+    //   let res = {}
+    //   const dfs = (cur,prefix) => {
+    //     if(isObject(cur)){
+    //       if(Array.isArray(cur)){
+    //         cur.forEach((item,index)=>{
+    //           dfs(item,`${prefix}[${index}]`)
+    //         })
+    //       }else {
+    //         for(let k in cur){
+    //           dfs(cur[k],`${prefix}${prefix?".":""}${k}`)
+    //         }
+    //       }
+
+    //     }else {
+    //       // res[prefix]=cur
+    //       res[prefix] = cur
+    //     }
+    //   }
+
+    //   dfs(obj,"")
+    //   return res
+    // }
+
+    // const obj = {
+    //   a: {
+    //     b: 1,
+    //     c: 2,
+    //     d: {
+    //       e: 5
+    //     }
+    //   },
+    //   b: [1, 3, {
+    //     a: 2,
+    //     b: 3
+    //   }],
+    //   c: 3
+    // }
+
+    // console.log(flatten(obj));
+
+
+
+    // 列表转为树形结构
+
+    // let list = [{
+    //     id: 1,
+    //     text: 'id1',
+    //     pid: 0,
+    //   },
+
+    //   {
+    //     id: 4,
+    //     text: 'id4',
+    //     pid: 2,
+    //   },
+    //   {
+    //     id: 5,
+    //     text: 'id5',
+    //     pid: 3,
+    //   },
+    //   {
+    //     id: 6,
+    //     text: 'id6',
+    //     pid: 2,
+    //   },
+    //   {
+    //     id: 7,
+    //     text: 'id7',
+    //     pid: 3,
+    //   },
+    //   {
+    //     id: 2,
+    //     text: 'id2',
+    //     pid: 0,
+    //   },
+    //   {
+    //     id: 3,
+    //     text: 'id3',
+    //     pid: 1,
+    //   },
+    // ]
+
+    // function listToTree(list) {
+
+    //   let temp = {}
+    //   let treeData = []
+
+    //   list.reduce((prev,cur)=>{
+    //     prev[cur.id]=cur
+    //     return prev
+    //   },temp)
+
+    //   Object.keys(temp).forEach(k=>{
+    //     let pid = temp[k].pid
+    //     if(pid==0){
+    //       treeData.push(temp[k])
+    //     }else {
+    //       if(!temp[pid].children){
+    //         temp[pid].children = []
+    //       }
+    //       temp[pid].children.push(temp[k])
+    //     }
+    //   })
+    //   console.log(treeData,temp);
+    //   return treeData
+    // }
+
+    // listToTree(list)
+
+
+
+    // 树形结构转化为列表
+    // let tree = [{
+    //     id: 1,
+    //     text: 'id1',
+    //     pid: 0,
+    //     children: [{
+    //         id: 3,
+    //         text: 'id3',
+    //         pid: 1,
+    //         children: [{
+    //           id: 7,
+    //           text: 'id7',
+    //           pid: 3,
+    //         }, ]
+    //       },
+    //       {
+    //         id: 4,
+    //         text: 'id4',
+    //         pid: 1,
+    //       },
+    //     ]
+    //   },
+    //   {
+    //     id: 2,
+    //     text: 'id2',
+    //     pid: 0,
+    //     children: [{
+    //         id: 5,
+    //         text: 'id5',
+    //         pid: 2,
+    //       },
+    //       {
+    //         id: 6,
+    //         text: 'id6',
+    //         pid: 2,
+    //       },
+    //     ]
+    //   },
+    // ]
+
+
+    // function treeToList(data) {
+    //   let list = []
+    //   const dfs = data => {
+    //     data.forEach(item=>{
+    //       if(item.children){
+    //         dfs(item.children)
+    //         delete item.children
+    //       }
+    //       list.push(item)
+    //     })
+    //   }
+
+    //   dfs(data)
+    //   console.log(list);
+    //   return list 
+    // }
+
+    // treeToList(tree)
+
+
+    // 大数相加
+
+    // let a = "9007199254740991";
+    // let b = "1234567899999999999";
+
+    // function add(a, b) {
+    //   let max = Math.max(a.length,b.length)
+    //   a= a.padStart(max,'0')
+    //   b= b.padStart(max,'0')
+
+    //   let t = 0;
+    //   let f= 0
+    //   let sum = ""
+
+    //   for(let i=max-1;i>=0;i--){
+    //     t= parseInt(a[i])+parseInt(b[i])+f
+    //     f= Math.floor(t/10)
+    //     sum = t%10 + sum
+    //   }
+
+    //   if(f!==0){
+    //     sum = f+sum
+    //   }
+
+    //   console.log(sum);
+    //   return sum
+    // }
+
+
+    // add("222", "888")
+
+
+
+    // 寄生组合继承
+
+    // function Parent(name){
+    //   this.name = name
+    //   this.say=function(){
+    //     console.log('say');
+    //   }
+    // }
+
+    // Parent.prototype.play = function(){
+    //   console.log('play');
+    // }let 
+
+    // function Child(name,age){
+    //   Parent.call(this,name)
+    //   this.age = age
+    // }
+
+    // Child.prototype = Object.create(Parent.prototype)
+    // Child.prototype.constructor=Child
+
+    // let c = new Child('haha',20)
+    // console.log(c);
+
+
+    // 实现并行限制的Promise调度器
+
+    //  class Scheduler {
+    //    constructor(limit){
+    //     this.queue = []
+    //     this.maxCount = limit 
+    //     this.runCount = 0
+    //    }
+
+    //    add(time,order){
+    //     const promiseCreator = ()=>{
+    //       return new Promise((resolve,reject)=>{
+    //         setTimeout(() => {
+    //           console.log(order);
+    //           resolve()
+    //         }, time);
+    //       })
+    //     }
+
+    //     this.queue.push(promiseCreator)
+    //    }
+
+    //    start(){
+    //      if(!this.queue.length) return
+    //      let length = this.maxCount 
+    //      if(this.queue.length<this.maxCount){
+    //        length = this.queue.length
+    //      }
+
+    //      for(let i=0;i<length;i++){
+    //        this.request()
+    //      }
+    //    }
+
+    //    request(){
+    //      if(!this.queue.length || this.runCount >= this.maxCount) return 
+    //      this.runCount ++ 
+    //      this.queue.shift()().then(res=>{
+    //       this.runCount --
+    //       this.request()
+    //      })
+    //    }
+    //  }
+
+    //   const s = new Scheduler(2)
+    //   const addTask=(time,order)=>{
+    //     s.add(time,order)
+    //   }
+    //   addTask(1000,1)
+    //   addTask(500,2)
+    //   addTask(300,3)
+    //   addTask(400,4)
+    //   s.start()
+
+
+
+
+
+    //new 的实现原理
+    // function myNew(fn,...args){
+    //   let obj = Object.create(fn.prototype)
+    //   let res = fn.call(obj,...args)
+    //   if(res &&(typeof res === 'object' || typeof res === "function")){
+    //     return res
+    //   }
+    //   return obj
+    // }
+
+    // function Person(name, age) {
+    //   this.name = name;
+    //   this.age = age;
+    //   return function(){
+    //     console.log('hahah');
+    //   }
+    // }
+
+    // Person.prototype.say = function () {
+    //   console.log(this.age);
+    // };
+    // let p1 = myNew(Person, "lihua", 18);
+    // console.log(p1.name);
+    // console.log(p1);
+    // p1.say();
+
+
+
+
+
+    // call apply bind
+
+
+    // Function.prototype.call = function(context,...args){
+    //  context = context || window
+    //  let fn = Symbol()
+    //  context[fn]= this
+    //  let result = context[fn](...args)
+    //  delete context[fn]
+    //  return result
+    // }
+
+    // Function.prototype.apply = function(context,args){
+    //   context = context || window
+    //   let fn = Symbol()
+    //   context[fn] = this
+    //   let result = context[fn](...args)
+    //   delete context[fn]
+    //   return result
+    // }
+
+    // Function.prototype.bind =function(context,...args){
+    //  context = context || window
+    //  let fn = Symbol()
+    //  context[fn]=this
+    //  return (...innerArgs)=>{
+    //    context[fn](...[...args,...innerArgs])
+    //    delete context[fn]
+    //  }
+    // }
+
+    //  var o ={n:111}
+    //   var n =222;
+
+    //   function fn(...args){
+    //     console.log(this.n,...args);
+    //   }
+
+    //   fn()
+    //   let aaaa=fn.apply(o,[1,2,3])
+    //   console.log(aaaa);
+
+
+    // function isObject(val) {
+    //   return typeof val === 'object' && typeof val !== null
+    // }
+
+    // function deepClone(target){
+    //   if(target instanceof RegExp) return new RegExp(target)
+    //   if(target instanceof Date) return new Date(target)
+    //   if(!isObject(target)) return target
+
+    //   const clone = Array.isArray(target)?[]:{}
+
+    //   for(const key in target){
+    //     if(target.hasOwnProperty(key)){
+    //       clone[key]=deepClone(target[key])
+    //     }
+    //   }
+    // }
+
+    // function deepClone(target , hash = new WeakMap()){
+    //   if(!isObject(target)) return target
+    //   if(hash.has(target)) return target
+    //   hash.set(target,true)
+    //   let clone = Array.isArray(target)?[]:{}
+    //   for(const key in target){
+    //     if(target.hasOwnProperty(key)){
+    //       clone[key]=deepClone(target[key])
+    //     }
+    //   }
+    // }
+
+
+    // instanceof 
+
+
+    // function myInstanceof (left,right){
+    //   while(true){
+    //     if(left === null){
+    //       return false
+    //     }
+
+    //     if(left.__proto__ === right){
+    //       return true
+    //     }
+
+    //     left = left.__proto__
+    //   }
+    // }
+
+
+    // 柯里化
+
+    // function currying(fn,...args){
+    //   const len = fn.length
+    //   let allArgs = [...args]
+
+    //   const res = (...newArgs)=>{
+    //     allArgs = [...allArgs,...newArgs]
+    //     if(allArgs.length == len){
+    //       return fn(...allArgs)
+    //     }else {
+    //       return res
+    //     }
+    //   }
+    //   return res
+    // }
+
+    // const add = (a, b, c) => a + b + c;
+    // const a = currying(add, 1);
+    // console.log(a);
+    // console.log(a(2, 3))
+
+
+
+    // 冒泡排序
+
+    // function bubbleSort(arr){
+    //   const len = arr.length
+    //   for(let i=0;i<len;i++){
+    //     for(let j=0;j<len-1;j++){
+    //       if(arr[j]>arr[j+1]){
+    //         [arr[j],arr[j+1]]=[arr[j+1],arr[j]]
+    //       }
+    //     }
+    //   }
+    //   return arr
+    // }
+
+    // let a = bubbleSort([2,5,1,0,7,9,2,3])
+    // console.log(a);
+
+
+    // function bubbleSort(arr) {
+    //   const len = arr.length
+    //   for (let i = 0; i < len; i++) {
+    //     for (let j = 0; j < len - 1; j++) {
+    //       if (arr[j] > arr[j + 1]) {
+    //         [arr[j + 1], arr[j]] = [arr[j], arr[j + 1]]
+    //       }
+    //     }
+    //   }
+    //   return arr
+    // }
+
+    // function bubbleSort(arr){
+    //   let len = arr.length
+
+    //   for (let i = 0; i < len-1; i++) {
+    //     for(let j =i;j<len;j++){
+    //       if(arr[i]>arr[j]){
+    //         [arr[j],arr[i]]=[arr[i],arr[j]]
+    //       }
+    //     } 
+    //   }
+    //   return arr
+    // }
+
+    // let a = bubbleSort([3, 6, 2, 4, 1])
+    // console.log(a);
+
+    // class _LazyMan {
+    //   constructor(name){
+    //     this.name = name
+    //     this.tasks = []
+
+    //     const task =()=>{
+    //       console.log(`this is ${name}`);
+    //       this.run()
+    //     }
+    //     this.tasks.push(task)
+
+    //     setTimeout(() => {
+    //       this.run()
+    //     }, 0);
+    //   }
+
+    //   run(){
+    //     const task = this.tasks.shift()
+    //     task && task()
+    //   }
+
+    //   sleep(time){
+    //     const task = ()=>{
+    //       console.log(` Wake up after ${time}`);
+    //       setTimeout(() => {
+    //         this.run()
+    //       }, time*1000);
+    //     }
+    //     this.tasks.push(task)
+    //     return this
+    //   }
+
+    //   sleepFirst(time){
+    //     const task = ()=>{
+    //       console.log(` Wake up after ${time}`);
+    //       setTimeout(() => {
+    //         this.run()
+    //       }, time*1000);
+    //     }
+    //     this.tasks.unshift(task)
+    //     return this
+    //   }
+
+    //   eat(name){
+    //     const task = () =>{
+    //       console.log(`Eat ${name}`);
+    //       this.run()
+    //     }
+    //     this.tasks.push(task)
+    //     return this
+    //   }
+
+    // }
+
+
+    // function LazyMan(name){
+    //   return new _LazyMan(name)
+    // }
+
+
+    // LazyMan("Hank") //输出:
+    //   Hi!This is Hank!
+
+    // LazyMan('Hank').sleep(3).eat('dinner') //输出
+    // Hi!This is Hank!
+    //   //等待10秒..
+    //   Wake up after 10
+    // Eat dinner~
+
+    // LazyMan('Hank').eat('dinner').eat('supper') //输出
+    // Hi This is Hank!
+    //   Eat dinner~
+    //   Eat supper~
+
+    // LazyMan('Hank').eat('supper').sleepFirst(2) //输出
+    // //等待5秒
+    // Wake up after 5
+    // Hi This is Hank!
+    //   Eat supper
+
+
+
+
+    // 防抖节流
+
+    // function debounce(fn,duration){
+    //   let timer =null
+    //   return (...args)=>{
+    //     if(timer){
+    //       clearTimeout(timer)
+    //     }
+    //     timer = setTimeout(()=>{
+    //       fn.call(this,...args)
+    //     },duration)
+    //   }
+    // }
+
+    // function throttle(fn,duration){
+    //   let time = 0
+    //   return (...args)=>{
+    //     let now = Date.now()
+    //     if(now-time>duration){
+    //       fn.call(this,...args)
+    //       time = now
+    //     }
+    //   }
+    // }
+
+
+    // window.addEventListener("scroll",debounce(fn,1000))
+
+    // 判断版本号
+    // let arr = ['0.1.1', '2.3.3', '0.3.1', '0.302.1', '4.2', '4.3.5', '4.3.4.5'];
+
+    // function arrSort() {
+
+    //   return arr.sort((a, b) => {
+    //     let i = 0;
+    //     const arr1 = a.split(".")
+    //     const arr2 = b.split(".")
+
+    //     while(true){
+    //       const s1 = arr1[i]
+    //       const s2 = arr2[i]
+    //       i++
+    //       if(s1 === undefined || s2 === undefined){
+    //         return arr2.lengtht - arr1.length
+    //       }
+    //       if(s1 === s2) continue
+    //       return s2-s1
+    //     }
+    //   })
+    // }
+
+    // let a = arrSort()
+    // console.log(a);
+
+
+
+
+    //     class LRUCache {
+    //       constructor(capacity){
+    //         this.capacity = capacity
+    //         this.secretKey = new Map()
+    //       }
+
+    //       get(key){
+    //         if(this.secretKey.has(key)){
+    //           let val = this.secretKey.get(key)
+    //           this.secretKey.delete(key)
+    //           this.secretKey.set(key,val)
+    //           return val
+    //         }else {
+    //           return -1
+    //         }
+    //       }
+
+    //       put(key,val){
+    //         if(this.secretKey.has(key)){
+    //           this.secretKey.delete(key)
+    //           this.secretKey.set(key,val)
+    //         }else if(this.secretKey.size < this.capacity){
+    //           this.secretKey.set(key,val)
+    //         }else {
+    //           this.secretKey.set(key,val)
+    //           this.secretKey.delete(this.secretKey.keys().next().value)
+    //         }
+    //       }
+    //     }
+
+    // let cache = new LRUCache(2);
+    // cache.put(1, 1);
+    // cache.put(2, 2);
+    // console.log("cache.get(1)", cache.get(1))// 返回  1
+    // cache.put(3, 3);// 该操作会使得密钥 2 作废
+    // console.log("cache.get(2)", cache.get(2))// 返回 -1 (未找到)
+    // cache.put(4, 4);// 该操作会使得密钥 1 作废
+    // console.log("cache.get(1)", cache.get(1))// 返回 -1 (未找到)
+    // console.log("cache.get(3)", cache.get(3))// 返回  3
+    // console.log("cache.get(4)", cache.get(4))// 返回  4
+
+
+    // 实现promise
+
+
+    // class MyPromise {
+    //   constructor(fn) {
+    //     this.status = 'pending'
+    //     this.resolveFun = []
+    //     this.rejectFun = []
+
+    //     let resolve = (val) => {
+    //       if (this.pending != 'pending') return
+    //       this.status = 'success'
+
+    //       setTimeout(() => {
+    //         this.resolveFun.forEach(item => {
+    //           item.call(this, val)
+    //         })
+    //       }, 0);
+    //     }
+
+    //     let reject = (val) => {
+    //       if (this.pending != 'pending') return
+    //       this.status = 'fail'
+
+    //       setTimeout(() => {
+    //         this.rejectFun.forEach(item => {
+    //           item.call(this, val)
+    //         })
+    //       }, 0);
+    //     }
+
+    //     try {
+    //       fn(resolve, reject)
+    //     } catch (err) {
+    //       reject(err)
+    //     }
+    //   }
+
+    //   then(resolveCb, rejectCb) {
+
+    //     resolveCb = typeof resolveCb !== 'function' ?(v)=>v :resolveCb
+    //     rejectCb = typeof rejectCb !== 'function' ?err=>{throw err }:rejectCb
+
+    //     return new MyPromise((resolve, reject) => {
+    //       this.resolveFun.push(val=>{
+    //         try {
+    //           let x = resolveCb(val)
+    //           x instanceof MyPromise ? x.then(resolve,reject):resolve(x)
+    //         } catch (err) {
+    //           reject(err)
+    //         }
+    //       })
+
+    //       this.rejectFun.push(val=>{
+    //         try {
+    //           let x = rejectCb(val)
+    //           x instanceof MyPromise ? x.then(resolve,reject):reject(x)
+    //         } catch (err) {
+    //           reject(err)
+    //         }
+    //       })
+    //     })
+    //   }
+
+
+    //   static all(promiseArr){
+    //     let result = []
+    //     let count = []
+    //     return new Promsie((resolve,reject)=>{
+    //      for(let i=0; i<promiseArr.length; i++){
+
+    //      }
+    //     })
+    //   }
+
+
+
+
+    // }
+
+
+    // const p = new Promise((resolve, reject) => {
+
+    // })
+
+
+
+    // add(1)(2)(3)()=6 add(1,2,3)(4)()=10
+
+    // function add(...args){
+    //   let totalArgs = [...args]
+    //   if(!totalArgs.length) return 
+
+    //   const res = (...newArgs)=>{
+    //     totalArgs = [...totalArgs,...newArgs]
+    //     if(!newArgs.length){
+    //       return totalArgs.reduce((prev,cur)=>prev+cur,0)
+    //     }else {
+    //       return res
+    //     }
+    //   }
+    //   return res
+    // }
+
+    // console.log(add());
+    // console.log(add(1,2,3)(4)());
+
+
+    // 动态规划
+    //       示例1：
+    // 输入: coins = [1, 2, 5], amount = 11
+    // 输出: 3
+    // 解释: 11 = 5 + 5 + 1
+
+    // function coinChnage(coin, amount) {
+    //   const f = []
+    //   f[0] = 0
+
+    //   for (let i = 1; i <= amount; i++) {
+    //     f[i]=Infinity
+    //     for(let j=0;j<coins.length;j++){
+    //       if(i-coins[j]>=0){
+    //         f[i]=Math.min(f[i],f[i-coins[j]]+1)
+    //       }
+    //     }
+    //   }
+
+    //   if(f[amount] === infinity){
+    //     return -1
+    //   }
+
+    //   return f[amount]
+    // }
+
+
+    //     <div>
+    //   <span>
+    //     <a></a>
+    //   </span>
+    //   <span>
+    //     <a></a>
+    //     <a></a>
+    //   </span>
+    // </div>
+
+
+    // function dom2Json(dom){
+    //   let obj = {}
+    //   console.log('dom',dom);
+    //   obj.name = dom.tagName
+    //   obj.children = []
+    //   // console.log('obj.childNodes',dom.childNodes);
+    //   dom.childNodes.forEach(child=>{
+    //     obj.children.push(dom2Json(child))
+    //   })
+    //   return obj
+    // }
+    // let dom = document.querySelector("#div")
+    // let o = dom2Json(dom)
+    // console.log(o);
+
+    //  ...  Array.from(arr)  Array.prototype.slice.call(arr)
+
+    // Array.apply(null,arr)
+
+    // Array.prototype.concat.all([],arr)
+
+    // +0 -0 NaN NaN 
+
+    // Object.is = function(x,y){
+    //   if(x===y){
+    //     return x !==0
+    //   }
+
+    //   return x!==x && y!==y
+    // }
+
+
+    // console.log(Object.is(-0,0));
+
+    // Object.is(x,y)=function(){
+    //   if(x===y){
+    //     return x!==0 
+    //   }
+    //   return x!==x && y!==y
+    // }
+
+
+    // const getJson = () => {
+    //   return new Promise((resolve,reject)=>{
+    //     const xhr = new XMLHttpRequest()
+    //     xhr.open("Get",url,false)
+    //     xhr.setRequestHeader("Content-type","application/json")
+    //     xhr.onreadystatechange=function(){
+    //       if(xhr.readyState !==4)return 
+    //       if(xhr.status == 200 || xhr.status == 304){
+    //         resolve(xhr.responseText)
+    //       }else {
+    //         reject(new Error(xhr.responseText))
+    //       }
+    //     }
+    //     xhr.send()
+    //   })
+    // }
+
+
+    // script start
+    // async2 end
+    // console.log('Promise')
+    // console.log('script end')
+    // async1 end
+    // console.log('promise1')
+    // console.log('promise2')
+    // console.log('setTimeout')
+
+
+
+
+    // http://hd.tangdou.com/hb_task_center/?anon_id=98693fb7be4a2f55abf5f5ac0d0e7c6e&bucketlist=play_page_head_ad-old,download_video_ad-old,play_page_multi_head_ad-new1,downpage_feed-new,video_rank-old,top_search-new,download_ad_head-new,download_ad_tail-new,search_page_video_tag-new,quick_login-new,video_first_playtime-old,downpage_hide_send_old-old,mp3_video_rank-new,main_classification_optimize-old,feed_plaque_ad-new2,pause_ad_ui-old,mypage_ui-new,playpage_plaque_ad-old,push_open-old&build=2&client=1&devices=iPhone9,2&dic=appstore&diu=DE9FFAF3-BB76-434C-9FB3-02EDBA3CC9C6&diu2=ECA8F80D-B9CE-4410-A283-0A8404AC8670&diu3=DE9FFAF3-BB76-434C-9FB3-02EDBA3CC9C6&div=7.4.1&gtcid=7836485644a3bef6988067abc958bd40&height=736&ip=120.242.94.226&netop=中国移动&nettype=WiFi&operator=46000&package=com.dreamwindows.video&sdkversion=14.3&smallvideo=1&time=1623850098332&token=9a788a6195626ac3a6f36e76a624c8c0&ua=Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148&uid=27978595&uuid=70393c8619bd983364b05b072e3eb7d4&ver=v2&version=7.4.1&width=414&xinge=116e89f5dde65c7bfae18bb64e3dddf37a5a8679753cf0a409e20b9602e9b07e&hash=abc50741fb87f62021b58217d756a873
+
+
+
+
+
+
+
+
+
+
+  </script>
+</body>
+
+</html>

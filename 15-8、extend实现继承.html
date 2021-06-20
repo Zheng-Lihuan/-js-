@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>extend实现继承</title>
+</head>
+
+<body>
+  <script>
+    // 父类
+    class Person {
+      constructor(age) {
+        this.age = age
+      }
+      sleep() {
+        console.log('sleeping')
+      }
+    }
+
+    // 子类
+    class Programmer extends Person {
+      constructor(age, name) {
+        super(age)
+        this.name = name
+      }
+      code() {
+        console.log('coding')
+      }
+    }
+
+    let jon = new Programmer(18, 'jon')
+    jon.name // jon
+    jon.age // 18
+
+    let flash = new Programmer(22, 'flash')
+    flash.age // 22
+    flash.name // flash
+
+    jon instanceof Person // true
+    jon instanceof Programmer // true
+    flash instanceof Person // true
+    flash instanceof Programmer // true
+  </script>
+</body>
+
+</html>

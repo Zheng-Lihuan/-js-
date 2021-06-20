@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实现数组去重（删掉重复的)</title>
+</head>
+
+<body>
+
+  <script>
+    let arr = [12, 23, 12, 15, 25, 23, 16, 25, 16];
+
+
+    function filterArr(arr) {
+      // for(let i=0; i<arr.length; i++){
+      //   let item = arr[i]
+      //   let newArr = arr.slice(i+1)
+      //   if(newArr.indexOf(item)>-1){
+      //     arr.splice(i,1)
+      //     i--
+      //   }
+      // }
+      // return arr
+
+      // for (let i = 0; i < arr.length - 1; i++) {
+      //   let item = arr[i]; // 取得当前数组中的每一项
+      //   let remainArgs = arr.slice(i + 1); // 从 i+1项开始截取数组中剩余元素，包括i+1位置的元素
+      //   if (remainArgs.indexOf(item) > -1) { // 数组的后面元素 包含当前项
+      //     arr[i] = arr[arr.length - 1]; // 用数组最后一项替换当前项
+      //     arr.length--; // 删除数组最后一项
+      //     i--; // 仍从当前项开始比较
+      //   }
+      // }
+
+      for(let i=0;i<arr.length;i++){
+        let item = arr[i]
+        let newArr = arr.slice(i+1)
+        if(newArr.indexOf(item)>-1){
+          arr.splice(i,1)
+          i--
+        }
+      }
+
+      return arr
+    }
+
+    const a = filterArr(arr)
+    console.log(a);
+  </script>
+
+</body>
+
+</html>

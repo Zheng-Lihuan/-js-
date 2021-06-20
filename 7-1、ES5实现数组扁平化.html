@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实现数组扁平化</title>
+</head>
+<body>
+  <script>
+
+
+// function myFlat(){
+//   let _this = this 
+//   let newArr = []
+//   let cycleArray=(arr)=>{
+//     for(let i = 0 ; i<arr.length; i++){
+//       let item = arr[i]
+//       if(Array.isArray(item)){
+//         cycleArray(item)
+//         continue
+//       }else {
+//         newArr.push(item)
+//       } 
+//     }
+//   }
+//   cycleArray(_this)
+//   return newArr
+// }
+
+
+function myFlat(){
+  let _this = this
+  let newArr = []
+  let cycleArray=(arr)=>{
+    for(let i = 0;i<arr.length;i++){
+      let item = arr[i]
+      if(Array.isArray(item)){
+        cycleArray(item)
+        continue
+      }else {
+        newArr.push(item)
+      }
+    }
+  }
+  cycleArray(_this)
+  return newArr
+}
+
+
+// Array.prototype.myFlat=myFlat;
+Array.prototype.myFlat=myFlat;
+
+
+let arr = [
+    [1, 2, 2],
+    [3, 4, 5, 5],
+    [6, 7, 8, 9, [11, 12, [12, 13, [14]]]], 10
+];
+
+const n = arr.myFlat()
+console.log(n);
+    
+
+
+
+
+
+
+  </script>
+</body>
+</html>

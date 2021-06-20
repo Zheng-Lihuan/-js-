@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>使用requestIdleCallback</title>
+</head>
+<body>
+  <script>
+
+    function task1(){
+      console.log('task1');
+    }
+
+    function task2(){
+      setTimeout(() => {
+        console.log('task2');
+      }, 2000);
+    }
+
+    function task3(){
+      setTimeout(() => {
+        console.log('task3');
+      }, 3000);
+    }
+
+    let  tasks=[task1,task2,task3]
+    let count = 0; //执行requestIdleCallback的次数
+    let requestId=null;
+
+
+
+
+    
+    function myNonEssentialWork(deadline){
+      count++
+      console.log('deadline',deadline.didTimeout,deadline.timeRemaining());
+      // while(deadline.timeRemaining)
+      while((deadline.timeRemaining()>0 || deadline.didTimeout) && tasks.length>0 ){
+        console.log('哈哈哈',requestId);
+        tasks.shift()()
+      }
+
+      if(tasks.length>0){
+        requestId = requestIdleCallback(myNonEssentialWork)
+      }else{
+        console.log('执行完毕',count,requestId);
+        cancelIdleCallback(requestId)
+      }
+
+    }
+    
+    requestId = requestIdleCallback(myNonEssentialWork)
+
+
+
+
+
+
+  </script>
+</body>
+</html>

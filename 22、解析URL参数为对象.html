@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实现JSON.parse</title>
+</head>
+
+<body>
+
+  <script>
+    let str = 'https://www.w3school.com.cn/js/jsref_exec_regexp.asp?name=zhangsan&age=29'
+    
+    function getUrlParams(url){
+      const params = url.split('?')[1]
+      const arr = params.split("&")
+      let p_obj={}
+      arr.forEach(item=>{
+        const [key,val] = item.split("=")
+        p_obj[key]=val
+      })
+      return p_obj
+    }
+
+    const params = getUrlParams(str)
+    console.log(params);
+  </script>
+
+</body>
+
+</html>

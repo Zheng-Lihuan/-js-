@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>promise的知识点</title>
+</head>
+
+<body>
+  <script>
+    // promise的知识点
+    // 实现队列
+
+
+
+    function isPromise(val) {
+      return typeof val.then === 'function'
+    }
+
+    Promise.all = function (promise) {
+      return new Promise((resolve, reject) => {
+        let arr = []
+        let index = 0
+        const processData = (key, data) => {
+          arr[key] = data
+          index++
+          if (index === promise.length) {
+            resolve(arr)
+          }
+        }
+
+        for (let i = 0; i < promise.length; i++) {
+          let result = promise[i]
+          if (isPromise(result)) {
+            result.then(data => {
+              processData(i,data)
+            }, reject)
+          } else {
+            processData(i, result)
+          }
+        }
+      })
+    }
+
+
+    // let fs = require('fs').promises;
+    function readFile(file,num){
+      return new Promise((resolve,reject)=>{
+        setTimeout(() => {
+          if(num>1){
+            reject(file)
+          }else {
+            resolve(file)
+          }
+        }, 1000);
+      })
+    }
+
+    let getName = readFile('./name.txt',0);
+    let getName1 = readFile('./name2.txt',1);
+    let getName2 = readFile('./name3.txt',2);
+
+    Promise.all([1, getName,getName2,getName1, 2]).then(data => {
+      console.log('data',data);
+    }).catch(err=>{
+      console.log(err);
+    })
+  </script>
+</body>
+
+</html>

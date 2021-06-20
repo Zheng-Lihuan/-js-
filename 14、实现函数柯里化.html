@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实现函数柯里化</title>
+</head>
+
+<body>
+
+  <script>
+    function currying(fn, ...args) {
+      if (fn.length == args.length) {
+        return fn(...args)
+      } else {
+        return function anonymons(...args2) {
+          const params = [...args, ...args2]
+          return currying(fn, ...params)
+        }
+      }
+    }
+
+    function add(a, b, c, d) {
+      return a + b + c + d
+    }
+
+    let fn1 = currying(add, 1, 2) // 3
+    let fn2 = fn1(3) // 6
+    let fn3 = fn2(4) // 10
+    console.log(fn3);
+  </script>
+
+
+
+
+
+</body>
+
+</html>

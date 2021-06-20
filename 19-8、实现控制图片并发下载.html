@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>使用promise.race实现控制图片并发下载</title>
+</head>
+
+<body>
+  <script>
+    var urls = [
+      'https://www.kkkk1000.com/images/getImgData/getImgDatadata.jpg',
+      'https://www.kkkk1000.com/images/getImgData/gray.gif',
+      'https://www.kkkk1000.com/images/getImgData/Particle.gif',
+      'https://www.kkkk1000.com/images/getImgData/arithmetic.png',
+      'https://www.kkkk1000.com/images/getImgData/arithmetic2.gif',
+      'https://www.kkkk1000.com/images/getImgData/getImgDataError.jpg',
+      'https://www.kkkk1000.com/images/getImgData/arithmetic.gif',
+      'https://www.kkkk1000.com/images/wxQrCode2.png'
+    ];
+
+    function loadImg(url) {
+      return new Promise((resolve, reject) => {
+        const img = new Image()
+        img.src = url;
+        img.onerror = reject
+        img.onload = function () {
+          total++
+          console.log('total', total);
+          console.log('一张图片加载成功');
+          setTimeout(() => {
+            resolve()
+          }, 2000);
+        }
+      })
+    }
+
+
+
+    function limitLoad(urls, handle, limit) {
+      let queue = [].concat(urls)
+      let primises = []
+      promises = queue.splice(0, limit).map((p, index) => {
+        return handle(p).then(res => {
+          return index
+        })
+      })
+
+      console.log(promises);
+
+      (function loop() {
+        let p = Promise.race(promises)
+        for (let i = 0; i < queue.length; i++) {
+          console.log('i',i);
+          p = p.then(res => {
+            promises[res] = handle(queue[i]).then(() => {
+              return res
+            })
+            return Promise.race(promises)
+          })
+        }
+      })()
+    }
+    let total=0
+    limitLoad(urls,loadImg,3)
+  </script>
+</body>
+
+</html>

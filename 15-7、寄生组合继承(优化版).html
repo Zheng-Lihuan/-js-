@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>寄生组合继承</title>
+</head>
+
+<body>
+  <script>
+    // 优化版
+
+    function Person(age) {
+      this.age = age || 18
+    }
+    
+    Person.prototype.sleep = function () {
+      console.log('sleeping')
+    }
+
+    function create(prototype) {
+      function Super() {}
+      Super.prototype = prototype
+      return new Super()
+    }
+
+    function prototype(child, parent) {
+      let prototype = create(parent.prototype)
+      child.prototype = prototype
+      prototype.constructor = child // 修复构造函数指向
+    }
+
+    function Programmer(age, name) {
+      Person.call(this, age)
+      this.name = name
+    }
+
+    prototype(Programmer, Person)
+
+    let jon = new Programmer(18, 'jon')
+    console.log(jon);
+    jon.name // jon
+  </script>
+</body>
+
+</html>

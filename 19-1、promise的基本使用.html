@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>promise的基本使用</title>
+</head>
+
+<body>
+  <script>
+    (function (window) {
+
+      function Promise(executor) {
+        this.status = "pending"
+        this.data = null
+        this.callbacks = []
+        let that = this
+
+        function resolve(val) {
+          if (that.status !== "pending") return
+          that.status = 'resolved'
+          that.data = val
+          if (that.callbacks.length > 0) {
+            // setTimeout(() => {
+            that.callbacks.forEach(cb => {
+              // console.log('cb', cb);
+              cb.onResolved()
+            });
+            // });
+          }
+        }
+
+        function reject(err) {
+          if (that.status !== 'pending') return
+          that.status = 'rejected'
+          that.data = err
+          that.callbacks.forEach(cb => {
+            cb.onRejected()
+          })
+        }
+
+
+        executor(resolve, reject)
+      }
+
+      Promise.prototype.then = function (onResolved, onRejected) {
+        onResolved = typeof onResolved === "function" ? onResolved : val => val
+        onRejected = typeof onRejected === "function" ? onRejected : err => {
+          throw err
+        }
+        let that = this
+        return new Promise((resolve, reject) => {
+
+          function handle(callback) {
+            try {
+              const result = callback(that.data)
+              if (result instanceof Promise) {
+                result.then(
+                  val => {
+                    resolve(val)
+                  },
+                  err => {
+                    reject(err)
+                  }
+                )
+              } else {
+                resolve(result)
+              }
+
+            } catch (err) {
+              reject(err)
+            }
+          }
+
+          if (that.status === 'pending') {
+            that.callbacks.push({
+              onResolved() {
+                // onResolved(that.data)
+                handle(onResolved)
+              },
+              onRejected() {
+                handle(onRejected)
+              }
+            })
+          } else if (that.status === 'resolved') {
+            setTimeout(() => {
+              handle(onResolved)
+            });
+          } else if (that.status === 'rejected') {
+            setTimeout(() => {
+              handle(onRejected)
+            });
+          }
+
+        })
+
+
+
+      }
+
+      Promise.prototype.catch = function(onReject){
+        return this.then(undefined,onReject)
+      }
+
+      Promise.resolve=function(val){
+        return new Promise((resolve,reject)=>{
+          if(val instanceof Promise){
+            val.then(
+              val=>{resolve(val)},
+              err=>{reject(err)}
+            )
+          }else {
+            resolve(val)
+          }
+        })
+      }
+
+      Promise.reject=function(err){
+        return new Promise(reject=>{
+          reject(err)
+        })
+      }
+
+      Promise.all=function(promises){
+        return new Promise((resolve,reject)=>{
+          promise.forEach((p,index)=>{
+            p.then(
+              val=>{
+                
+              }
+            )
+          })
+        })
+      }
+
+
+
+      window.Promise = Promise
+    })(window)
+
+
+    let promsie = new Promise((resolve, reject) => {
+      // setTimeout(() => {
+        reject(10)
+      // }, 10);
+    })
+    promsie
+    .then(
+      res=>{
+        console.log('res',res);
+      },
+      // err=>{
+      //   console.log('err',err);
+      // }
+    ).catch(
+      err=>{
+        console.log('catch',err);
+      }
+    )
+
+
+
+
+  </script>
+</body>
+
+</html>

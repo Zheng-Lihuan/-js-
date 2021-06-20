@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>原型继承</title>
+</head>
+
+<body>
+  <script>
+    function Person(age) {
+      this.age = age || 18
+    }
+    Person.prototype.sleep = function () {
+      console.log('sleeping')
+    }
+
+    // 原型继承模式
+    // 缺点
+    //   无法向父类构造函数传参
+    //   父类所有属性被共享,只要一个实例属性修改了父类方法，其他所有的子实例都会受影响
+
+    function Programmer() {}
+
+    Programmer.prototype = new Person()
+    Programmer.prototype.code = function () {
+      console.log('coding')
+    }
+
+    let jon = new Programmer()
+    console.log(jon);
+    jon.code() // coding
+    jon.sleep() // sleeping
+
+    jon instanceof Person // true
+    jon instanceof Programmer // true
+
+    console.log( Object.getPrototypeOf(jon) );
+    // Object.getPrototypeOf(jon) // Person {age: 18, code: ƒ}
+    jon.__proto__ // Person {age: 18, code: ƒ}
+  </script>
+</body>
+
+</html>

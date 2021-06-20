@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>使用settimeout模拟实现setinterval</title>
+</head>
+
+<body>
+  <script>
+    let interval = function (fn, time) {
+      let cb =fn
+      if (this.timer) {
+        clearTimeout(this.timer)
+      }
+      this.timer = setTimeout(() => {
+        fn()
+        interval(cb,time)
+      }, time);
+    }
+
+
+    interval(()=>{console.log('111');}, 1000)
+  </script>
+</body>
+
+</html>

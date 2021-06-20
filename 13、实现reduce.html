@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实现reduce</title>
+</head>
+
+<body>
+  <script>
+    let sum = [1, 2, 3]
+    // sum.myReduce((prev, next) => {
+    //   return prev + next
+    // });
+
+   
+
+    Array.prototype.myReduce = function (fn, prev) {
+      for (let i = 0; i < this.length; i++) {
+        if (typeof prev === 'undefined') {
+          prev = fn(this[i], this[i + 1], i + 1, this);
+          ++i;
+        } else {
+          prev = fn(prev, this[i], i, this);
+        }
+      }
+      return prev
+    }
+
+    Array.prototype.myReduce = function (fn, prev) {
+      for(let i = 0;i<this.length;i++){
+        if(typeof prev === 'undefined'){
+          prev= fn(this[i],this[i+1],i+1,this)
+          ++i
+        }else {
+          prev=fn(prev,this[i],i,this)
+        }
+      }
+      return prev
+    }
+
+     sum= sum.myReduce((prev,next,index,arr)=>{
+      console.log(prev,next,index,arr);
+      return prev+next
+    })
+
+    console.log(sum); // 6
+
+    let a=2
+  </script>
+</body>
+
+</html>

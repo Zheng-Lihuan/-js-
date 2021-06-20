@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>基于generator实现async/await</title>
+</head>
+<body>
+  
+
+  <script>
+
+    function readFile(file){
+      return new Promise((resolve,reject)=>{
+        setTimeout(() => {
+          resolve(file)
+        }, 1000);
+      })
+    }
+
+
+    function asyncFunc(generator){
+      let iterator = generator()
+      const next =data=>{
+        const { value ,done } = iterator.next(data)
+        if(done) return
+        value.then(data=>{
+          next(data)
+        })
+      }
+      next()
+    }
+
+    asyncFunc(function* (){
+      let data = yield readFile('a.js')
+      data = yield readFile(data+'b.js')
+      return data
+    })
+
+
+
+
+    function readFile(file){
+      return new Promise(resolve=>{
+        setTimeout(() => {
+          resolve(file)
+        }, 1000);
+      })
+    }
+
+    function asyncFunc(generator){
+      const iterator = generator()
+      const next=data=>{
+        const {value ,done} = iterator.next(data)
+        if(done) return done
+        value.then(data=>{
+          next(data)
+        })
+      }
+      next()
+    }
+
+    asyncFunc(function*(){
+      let data = yield readFile('a.js')
+      data = yield readFile(data + ' b.js')
+      console.log('data',data);
+      return data
+    })
+
+
+  </script>
+
+
+</body>
+</html>

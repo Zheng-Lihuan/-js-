@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实现发布订阅</title>
+</head>
+<body>
+    <script>
+
+      // class EventEmitter {
+      //   constructor(){
+      //     this.events={}
+      //   }
+
+      //   on(eventName,callback){
+      //     if(!this.events[eventName]){
+      //       this.events[eventName]=[callback]
+      //     }else {
+      //       this.events[eventName].push(callback)
+      //     }
+      //   }
+
+      //   emit(eventName){
+      //     this.events[eventName] && this.events[eventName].forEach(cb=>cb())
+      //   }
+      // }
+
+
+      // const event = new EventEmitter()
+
+      // console.log(event);
+
+      // function say(){
+      //   console.log('say');
+      // }
+
+      // function code(){
+      //   console.log('code');
+      // }
+
+      // event.on("say",say)
+      // event.on("code",code)
+
+      // event.emit('say')
+      // event.emit('code')
+
+
+
+
+      class EventBus {
+        constructor(){
+          this._events = this._events || new Map()
+          this._maxEventLength = this._maxEventLength || 10
+        }
+
+        $on(eventName,callback){
+          let eventList = this._events.get(eventName)
+          if(eventList){
+            eventList.push(callback)
+          }else {
+            this._events.set(eventName,[callback])
+          }
+        }
+
+        $emit(eventName,...args){
+          let eventList = this._events.get(eventName)
+          if(eventName){
+            eventList.forEach(event=>{
+              event.call(this,...args)
+            })
+          }else {
+            console.log('当前时间没有被监听');
+          }
+        }
+
+        //只被触发一次
+        $once(eventName,callback){
+          const cb=(...args)=>{
+            callback.call(this,...args)
+            this.$off(eventName,callback)
+          }
+          this.$on(eventName,cb)
+        }
+
+        $off(eventName,callback){
+          let eventList = this._events.get(eventName)
+          console.log('eventList',eventList);
+          if(eventList){
+            if(callback){
+              // for(let i=0; i<eventList.length;i++){
+              //   let item = eventList[i]
+              //   console.log(item,callback);
+              //   if(item == callback){
+              //     eventList.splice(i,1)
+              //     i--
+              //   }
+              // } 
+
+
+              let list = eventList.filter(item=>{
+                return item==callback
+              })
+              if(list.length>0){
+                eventList=list
+              }else {
+                this._events.delete(eventName)
+              }
+              console.log('list',list);
+            }else {
+              this._events.delete(eventName)
+            }
+          }else {
+            console.log('此事件没有被监听');
+          }
+        }
+
+      }
+
+     let o={a:11,b:20}
+
+
+     const events = new EventBus()
+
+     const say = (name)=>{
+      console.log(`say hi for ${name}`);
+     }
+
+     const code = (name)=>{
+      console.log(`click  ${name}`);
+     }
+
+     const learn = (name)=>{
+      console.log(`learn ${name}`);
+     }
+
+     events.$on("say",say)
+     events.$on("say",say)
+    //  events.$on("say",code)
+    //  events.$on("say",code)
+     events.$once("learn",learn)
+     console.log('events',events);
+
+     events.$emit('learn','js')
+     console.log('events',events);
+
+    //  events.$on("code",say)
+    //  events.$on("code",code)
+
+    //  events.$emit("say",'chengduxiu')
+    //  events.$off("say",say)
+     
+
+
+
+    </script>
+</body>
+</html>

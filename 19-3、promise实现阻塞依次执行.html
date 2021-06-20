@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实现stringify</title>
+</head>
+
+<body>
+
+  <button id="a">按钮a</button>
+  <button id="b">按钮b</button>
+  输入：<input type="text" id="input">
+
+
+  <script>
+    let a = document.querySelector("#a")
+    let b = document.querySelector("#b")
+    let i = document.querySelector("#input")
+
+    let P = Promise.resolve()
+
+    a.addEventListener("click", function () {
+      P = P.then(() => {
+        return new Promise((resolve, reject) => {
+          resolve()
+          i.value = 'a'
+          console.log('a');
+        })
+      })
+    })
+
+    b.addEventListener("click", function () {
+      P = P.then(()=>{
+        return new Promise((resolve,reject)=>{
+          setTimeout(() => {
+            resolve()
+            i.value = 'b'
+            console.log('b');
+          }, 2000);
+        })
+      })
+
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实现观察者模式</title>
+</head>
+<body>
+  <script>
+    
+
+    class Student {
+      constructor(name){
+        this.name=name
+        this.state='开心的'
+        this.observers=[]
+      }
+
+      attach(o){
+        this.observers.push(o)
+      }
+
+      setState(state){
+        this.state=state
+        this.observers.forEach(o=>o.update(this))
+      }
+    }
+
+
+    class Observe {
+      constructor(name){
+        this.name=name
+      }
+      update(student){
+        console.log(`被观察者${student.name}的状态变化了,通知了观察者${this.name}`);
+      }
+    }
+
+    const student = new Student("学生")
+    const t = new Observe("老师")
+    const j = new Observe("家长")
+
+    student.attach(t)
+    student.attach(j)
+    student.setState("不开心")
+
+
+
+
+
+
+
+  </script>
+</body>
+</html>

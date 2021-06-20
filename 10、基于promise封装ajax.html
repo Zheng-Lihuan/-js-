@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>基于promise封装ajax</title>
+</head>
+
+<body>
+  <script>
+    function ajax(url, method, params) {
+      return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest()
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+              resolve(xhr.responseText)
+            } else if (status === 404) {
+              reject(new Error("404"))
+            }
+          } 
+        }
+
+        let params_arr = []
+        for (const key in params) {
+          if (Object.hasOwnProperty.call(params, key)) {
+            params_arr.push(`${key}=${params.key}`)
+          }
+        }
+
+        let params_str = params_arr.join('&')
+        let data = null;
+        method = method.toUpperCase()
+        xhr.open(method, url, true)
+        if (method === 'POST') {
+          xhr.setRequestHeader("Context-type", "application/x-www-form-urlencode")
+          data = params_str
+        }
+
+        xhr.send(data)
+      })
+    }
+
+
+
+    function ajax(method = 'GET', url, params = {}) {
+      return new Promise((resolve, reject) => {
+        let xhr = new XMLHttpRequest()
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+            if (xhr.status==200 && xhr.status < 300 || xhr.status === 304) {
+              resolve(xhr.responseText)
+            } else if (xhr.status === 404) {
+              console.log('404');
+              reject(new Error(404))
+            }
+          }
+        }
+        const params_arr = []
+        for (const key in params) {
+          if (params.hasOwnProperty(key)) {
+            params_arr.push(`${key}=${params.key}`)
+          }
+        }
+        let params_str = params_arr.join('&')
+
+        method = method.toUpperCase()
+        if (method === 'POST') {
+          xhr.set("Context-type", "application/x-www-form-urlencode")
+        } else if (method === 'GET') {
+          url += `?${params_str}`
+        }
+        xhr.open(method, url, true)
+        xhr.send(params_str)
+      })
+    }
+
+
+    ajax("get", 'json.json').then(res => {
+      console.log('ajax',res);
+    })
+
+    // fetch("./json.json")
+    // .then(res=>{
+    //   return res.json()
+    // }).then(res=>{
+    //   console.log('fetch',res);
+    // })
+  </script>
+</body>
+
+</html>
