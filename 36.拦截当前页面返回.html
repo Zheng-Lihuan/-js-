@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>拦截当前页面返回</title>
+  <style>
+
+    #toast {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+ 
+
+  <input type="text"  id="text">
+  <div id="toast">我是弹框</div>
+
+  <script>
+
+
+  const updateUserHistory = (url) => {
+    // 保存当前访问地址
+    const currentUrl = window.location.href
+    console.log('currentUrl',currentUrl);
+    // 修改当前历史记录
+    window.history.replaceState({ isReload: false }, '', url)
+    // 添加新的历史记录
+    window.history.pushState({ isReload: false }, '', currentUrl)
+  }
+
+  updateUserHistory('http://127.0.0.1:5500/37.html') //当前页面的地址
+
+  // 监听浏览器历史记录发生改变时
+  window.addEventListener('popstate', function(e) {
+      if (!e.state.isReload) {
+        const state = e.state
+        state.isReload = true
+        // 历史记录发生改变，页面内容并未改变，通过刷新才能更新内容
+        // window.location.reload()
+        document.getElementById("toast").style.display="block"
+      }
+    }, false)
+
+  </script>
+</body>
+</html>

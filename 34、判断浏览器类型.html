@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>判断浏览器类型</title>
+</head>
+
+<body>
+  <script>
+    //判断是否是在浏览器中
+    function isBrowser() {
+      return typeof window !== 'undefined'
+    }
+
+    //判断浏览器类型
+    function getBrowserType() {
+      const UA = isBrowser && window.navigator.userAgent.toLowerCase()
+      const isIE = UA && /msie|trident/.test(UA)
+      const isIE9 = UA && UA.indexOf('mise 9.0') > 0
+      const isEdge = UA && UA.indexOf('edge/') > 0
+      const isAndroid = (UA && UA.indexOf('android') > 0)
+      const isIOS = UA && /iphone|ipad|ipod|ios/.test(UA)
+      const isChrome = UA && /chrome\/\d+/.test(UA) && !isEdge
+      const isFF = UA && UA.match(/firefox\/(\d+)/)
+      return {
+        isIE,
+        isIE9,
+        isAndroid,
+        isIOS,
+        isChrome,
+        isFF
+      }
+    }
+
+    console.log(getBrowserType());
+  </script>
+</body>
+
+</html>
